@@ -749,16 +749,16 @@ func MultiClick(button string, count int, click ...bool) error {
 	if count < 1 {
 		return nil
 	}
-	btn := CheckMouse(button)
 	defer MilliSleep(MouseSleep)
 
 	if runtime.GOOS == "darwin" && len(click) <= 0 {
+		btn := CheckMouse(button)
 		code := C.doubleClick(btn, C.int(count))
 		return formatClickError(int(code), btn, "down", count)
 	}
 
 	for i := 0; i < count; i++ {
-		if err := Click(btn, false, i+1); err != nil {
+		if err := Click(button, false, i+1); err != nil {
 			return err
 		}
 	}
