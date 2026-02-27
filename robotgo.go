@@ -735,16 +735,14 @@ func Click(args ...interface{}) error {
 		if code := C.toggleMouse(true, button); code != 0 {
 			return formatClickError(int(code), button, "down", count)
 		}
+
 		MilliSleep(5)
-		if code := C.toggleMouse(false, button); code != 0 {
-			return formatClickError(int(code), button, "up", count)
-		}
-	} else {
-		if code := C.doubleClick(button, 2); code != 0 {
-			return formatClickError(int(code), button, "double", 2)
-		}
+		code := C.toggleMouse(false, button)
+		return formatClickError(int(code), button, "up", count)
 	}
-	return nil
+
+	code := C.doubleClick(button, 2)
+	return formatClickError(int(code), button, "double", 2)
 }
 
 // MultiClick performs multiple clicks and returns error
